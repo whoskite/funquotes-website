@@ -20,7 +20,7 @@ export function NavBar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const navItems = ["About", "Features", "Blog", "Community"]
+  const navItems = ["Home", "About", "Blog", "Community"]
 
   return (
     <AnimatePresence>
@@ -66,7 +66,7 @@ export function NavBar() {
                 {navItems.map((item) => (
                   <Link
                     key={item}
-                    href={`/${item.toLowerCase()}`}
+                    href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                     className="relative px-4 py-2 text-sm font-medium text-white hover:text-gray-200 transition-colors rounded-full z-10"
                     onMouseEnter={() => setHoveredLink(item)}
                     onMouseLeave={() => setHoveredLink(null)}
@@ -99,7 +99,7 @@ export function NavBar() {
                           transition={{ duration: 0.3, delay: 0.1 }}
                         >
                           <Link
-                            href="/app"
+                            href="https://app.funquotes.xyz"
                             className="relative px-4 py-2 text-sm font-medium text-white hover:text-gray-200 transition-colors rounded-full z-10 whitespace-nowrap"
                           >
                             Open App
@@ -125,7 +125,7 @@ export function NavBar() {
                   variant="outline"
                   className="border-emerald-500/20 text-emerald-600 hover:bg-emerald-500/10 transition-colors relative z-10 rounded-lg"
                 >
-                  <Link href="https://qg-frames.vercel.app/">Open App</Link>
+                  <Link href="https://app.funquotes.xyz">Open App</Link>
                 </Button>
                 <motion.div
                   className="absolute inset-0"

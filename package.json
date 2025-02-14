@@ -2,8 +2,10 @@
   "name": "funquotes-website",
   "version": "1.0.0",
   "dependencies": {
-    "@radix-ui/react-separator": "^1.1.2",
+    "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@types/canvas-confetti": "^1.9.0",
+    "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "framer-motion": "^10.18.0",
@@ -17,7 +19,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

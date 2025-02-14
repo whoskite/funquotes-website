@@ -73,6 +73,11 @@ export default function Home() {
       try {
         const canvas = document.createElement("canvas")
         const ctx = canvas.getContext("2d")
+        
+        if (!ctx) {
+          throw new Error("Could not get canvas context")
+        }
+        
         canvas.width = 1200
         canvas.height = 630
 
@@ -97,7 +102,8 @@ export default function Home() {
         const lines = []
         words.forEach((word) => {
           const testLine = line + word + " "
-          if (ctx.measureText(testLine).width > canvas.width - 100) {
+          const metrics = ctx.measureText(testLine)
+          if (metrics.width > canvas.width - 100) {
             lines.push(line)
             line = word + " "
           } else {
@@ -106,13 +112,22 @@ export default function Home() {
         })
         lines.push(line)
 
+        // Draw text lines
         lines.forEach((line, index) => {
-          ctx.fillText(line, canvas.width / 2, canvas.height / 2 - (lines.length - 1) * 30 + index * 60)
+          ctx.fillText(
+            line,
+            canvas.width / 2,
+            canvas.height / 2 - (lines.length - 1) * 30 + index * 60
+          )
         })
 
         // Add author
         ctx.font = "italic 32px Inter, sans-serif"
-        ctx.fillText(`- ${currentQuote.author}`, canvas.width / 2, canvas.height / 2 + lines.length * 30 + 40)
+        ctx.fillText(
+          `- ${currentQuote.author}`,
+          canvas.width / 2,
+          canvas.height / 2 + lines.length * 30 + 40
+        )
 
         const imageDataUrl = canvas.toDataURL("image/png")
         setPreviewImageUrl(imageDataUrl)
@@ -141,7 +156,8 @@ export default function Home() {
         }
       } catch (error) {
         console.error("Error sharing to Twitter:", error)
-        alert(`Error sharing to Twitter: ${error.message}`)
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred"
+        alert(`Error sharing to Twitter: ${errorMessage}`)
       }
     } else {
       switch (platform) {
@@ -163,7 +179,7 @@ export default function Home() {
     } else {
       setPreviewImageUrl(null)
     }
-  }, [isShareMenuOpen, handleShare]) // Added handleShare to dependencies
+  }, [isShareMenuOpen]) // Removed handleShare from dependency array
 
   const handleDownload = async () => {
     if (quoteRef.current) {
@@ -233,12 +249,12 @@ export default function Home() {
                 size="lg"
                 className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-8 h-12 rounded-full"
               >
-                <Link href="/app">Start Exploring</Link>
+                <Link href="https://app.funquotes.xyz">Start Exploring</Link>
               </Button>
               <Button
                 asChild
                 size="lg"
-                className="border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300 px-8 h-12 rounded-full"
+                className="border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-black hover:text-gray-900 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300 px-8 h-12 rounded-full"
               >
                 <Link href="/about">Learn more</Link>
               </Button>
@@ -449,7 +465,7 @@ export default function Home() {
                   size="lg"
                   className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-8 h-12 rounded-full"
                 >
-                  <Link href="/app">Try it now</Link>
+                  <Link href="https://app.funquotes.xyz">Try it now</Link>
                 </Button>
               </motion.div>
             </motion.div>

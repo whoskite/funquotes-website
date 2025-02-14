@@ -28,6 +28,9 @@ export function Footer() {
           <Link href="/terms" className="text-gray-400 hover:text-gray-300">
             Terms
           </Link>
+          <Link href="/contact" className="text-gray-400 hover:text-gray-300">
+            Contact Us
+          </Link>
         </div>
         <p className="mt-8 text-center text-sm text-gray-400">
           &copy; {new Date().getFullYear()} FunQuotes. All rights reserved.
