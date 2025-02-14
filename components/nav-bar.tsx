@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator"
 
 export function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [hoveredLink, setHoveredLink] = useState(null)
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
   const [showLogoAndBrand, setShowLogoAndBrand] = useState(true)
 
   useEffect(() => {
