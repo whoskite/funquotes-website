@@ -10,13 +10,7 @@ import {
   History,
   Heart,
   RefreshCw,
-  Share2,
-  Download,
-  Twitter,
-  Facebook,
-  LinkedinIcon as LinkedIn,
 } from "lucide-react"
-import html2canvas from "html2canvas"
 import { useTheme } from "@/lib/theme-context"
 
 // Expanded list of quotes
@@ -54,142 +48,12 @@ const quotes = [
 
 export default function Home() {
   const [currentQuote, setCurrentQuote] = useState(quotes[0])
-  const [isShareMenuOpen, setIsShareMenuOpen] = useState(false)
-  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null)
   const quoteRef = useRef(null)
   const { theme } = useTheme()
 
   const generateNewQuote = () => {
     const newQuote = quotes[Math.floor(Math.random() * quotes.length)]
     setCurrentQuote(newQuote)
-  }
-
-  const handleShare = async (platform: string) => {
-    let shareUrl = ""
-    const text = `"${currentQuote.text}" - ${currentQuote.author}`
-    const encodedText = encodeURIComponent(text)
-
-    if (platform === "twitter" && quoteRef.current) {
-      try {
-        const canvas = document.createElement("canvas")
-        const ctx = canvas.getContext("2d")
-        
-        if (!ctx) {
-          throw new Error("Could not get canvas context")
-        }
-        
-        canvas.width = 1200
-        canvas.height = 630
-
-        // Create gradient background
-        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
-        if (theme === "dark") {
-          gradient.addColorStop(0, "#0A0118")
-          gradient.addColorStop(1, "#1a1a2e")
-        } else {
-          gradient.addColorStop(0, "#ffffff")
-          gradient.addColorStop(1, "#f0f0f0")
-        }
-        ctx.fillStyle = gradient
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-        // Add text
-        ctx.fillStyle = theme === "dark" ? "#ffffff" : "#000000"
-        ctx.textAlign = "center"
-        ctx.font = "bold 48px Inter, sans-serif"
-        const words = currentQuote.text.split(" ")
-        let line = ""
-        const lines = []
-        words.forEach((word) => {
-          const testLine = line + word + " "
-          const metrics = ctx.measureText(testLine)
-          if (metrics.width > canvas.width - 100) {
-            lines.push(line)
-            line = word + " "
-          } else {
-            line = testLine
-          }
-        })
-        lines.push(line)
-
-        // Draw text lines
-        lines.forEach((line, index) => {
-          ctx.fillText(
-            line,
-            canvas.width / 2,
-            canvas.height / 2 - (lines.length - 1) * 30 + index * 60
-          )
-        })
-
-        // Add author
-        ctx.font = "italic 32px Inter, sans-serif"
-        ctx.fillText(
-          `- ${currentQuote.author}`,
-          canvas.width / 2,
-          canvas.height / 2 + lines.length * 30 + 40
-        )
-
-        const imageDataUrl = canvas.toDataURL("image/png")
-        setPreviewImageUrl(imageDataUrl)
-
-        const blob = await (await fetch(imageDataUrl)).blob()
-        const file = new File([blob], "quote.png", { type: "image/png" })
-
-        const formData = new FormData()
-        formData.append("text", text)
-        formData.append("media", file)
-
-        const response = await fetch("/api/twitter-share", {
-          method: "POST",
-          body: formData,
-        })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        const data = await response.json()
-        if (data.url) {
-          window.open(data.url, "_blank")
-        } else {
-          throw new Error("No URL returned from the API")
-        }
-      } catch (error) {
-        console.error("Error sharing to Twitter:", error)
-        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred"
-        alert(`Error sharing to Twitter: ${errorMessage}`)
-      }
-    } else {
-      switch (platform) {
-        case "facebook":
-          shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodedText}`
-          break
-        case "linkedin":
-          shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=${encodedText}`
-          break
-      }
-      window.open(shareUrl, "_blank")
-    }
-    setIsShareMenuOpen(false)
-  }
-
-  useEffect(() => {
-    if (isShareMenuOpen) {
-      handleShare("twitter")
-    } else {
-      setPreviewImageUrl(null)
-    }
-  }, [isShareMenuOpen]) // Removed handleShare from dependency array
-
-  const handleDownload = async () => {
-    if (quoteRef.current) {
-      const canvas = await html2canvas(quoteRef.current)
-      const dataUrl = canvas.toDataURL("image/png")
-      const link = document.createElement("a")
-      link.href = dataUrl
-      link.download = "funquotes_share.png"
-      link.click()
-    }
   }
 
   return (
@@ -280,15 +144,6 @@ export default function Home() {
                     size="sm"
                     variant="ghost"
                     className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
-                    onClick={() => setIsShareMenuOpen(!isShareMenuOpen)}
-                  >
-                    <Share2 className="w-4 h-4 mr-2" />
-                    Share
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
                     onClick={generateNewQuote}
                   >
                     <RefreshCw className="w-4 h-4 mr-2" />
@@ -311,66 +166,6 @@ export default function Home() {
                   </blockquote>
                   <p className="mt-2 text-right text-gray-600 dark:text-gray-400">- {currentQuote.author}</p>
                 </motion.div>
-              </AnimatePresence>
-              <AnimatePresence>
-                {isShareMenuOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                    animate={{ opacity: 1, height: "auto", marginTop: 16 }}
-                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="overflow-hidden"
-                  >
-                    {previewImageUrl && (
-                      <div className="mb-4">
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Preview:</p>
-                        <img
-                          src={previewImageUrl || "/placeholder.svg"}
-                          alt="Quote preview"
-                          className="w-full rounded-lg"
-                        />
-                      </div>
-                    )}
-                    <div className="flex justify-center space-x-4">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400 hover:bg-blue-600/10 dark:hover:bg-blue-400/10"
-                        onClick={() => handleShare("twitter")}
-                      >
-                        <Twitter className="w-4 h-4 mr-2" />
-                        Twitter
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-blue-700 dark:text-blue-600 border-blue-700 dark:border-blue-600 hover:bg-blue-700/10 dark:hover:bg-blue-600/10"
-                        onClick={() => handleShare("facebook")}
-                      >
-                        <Facebook className="w-4 h-4 mr-2" />
-                        Facebook
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-blue-800 dark:text-blue-700 border-blue-800 dark:border-blue-700 hover:bg-blue-800/10 dark:hover:bg-blue-700/10"
-                        onClick={() => handleShare("linkedin")}
-                      >
-                        <LinkedIn className="w-4 h-4 mr-2" />
-                        LinkedIn
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-emerald-600 dark:text-emerald-400 border-emerald-600 dark:border-emerald-400 hover:bg-emerald-600/10 dark:hover:bg-emerald-400/10"
-                        onClick={handleDownload}
-                      >
-                        <Download className="w-4 h-4 mr-2" />
-                        Save Image
-                      </Button>
-                    </div>
-                  </motion.div>
-                )}
               </AnimatePresence>
             </div>
           </motion.div>
