@@ -99,26 +99,6 @@ export default function CommunityPage() {
           </motion.div>
 
           <motion.div
-            className="mt-16 bg-emerald-50 dark:bg-emerald-900/20 p-8 rounded-xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold mb-4">Featured Community Member</h2>
-            <div className="flex items-center space-x-4">
-              <img src="/placeholder.svg?height=80&width=80" alt="Featured Member" className="w-20 h-20 rounded-full" />
-              <div>
-                <h3 className="text-xl font-semibold">Jane Doe</h3>
-                <p className="text-gray-600 dark:text-gray-300">Quote Enthusiast</p>
-                <p className="mt-2 italic">
-                  "Joining the FunQuotes community has been an incredible journey of inspiration and growth. I've met
-                  amazing people and discovered quotes that have truly changed my perspective on life."
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
             className="mt-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
