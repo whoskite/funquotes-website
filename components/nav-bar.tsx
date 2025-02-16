@@ -22,7 +22,7 @@ export function NavBar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const navItems = ["Home", "About", "Blog", "Community"]
+  const navItems = ["Home", "About", "Community"]
 
   return (
     <AnimatePresence>
