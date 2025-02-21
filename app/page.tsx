@@ -44,6 +44,21 @@ const quotes = [
   },
   { text: "Life is 10% what happens to us and 90% how we react to it.", author: "Charles R. Swindoll" },
   { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+  { text: "What you get by achieving your goals is not as important as what you become by achieving your goals.", author: "Zig Ziglar" },
+  { text: "The only person you are destined to become is the person you decide to be.", author: "Ralph Waldo Emerson" },
+  { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+  { text: "Success usually comes to those who are too busy to be looking for it.", author: "Henry David Thoreau" },
+  { text: "The harder you work for something, the greater you'll feel when you achieve it.", author: "Anonymous" },
+  { text: "Dream big and dare to fail.", author: "Norman Vaughan" },
+  { text: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs" },
+  { text: "The best revenge is massive success.", author: "Frank Sinatra" },
+  { text: "The only way to achieve the impossible is to believe it is possible.", author: "Charles Kingsleigh" },
+  { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
+  { text: "When you have a dream, you've got to grab it and never let go.", author: "Carol Burnett" },
+  { text: "The future depends on what you do today.", author: "Mahatma Gandhi" },
+  { text: "Don't let yesterday take up too much of today.", author: "Will Rogers" },
+  { text: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
+  { text: "The secret of getting ahead is getting started.", author: "Mark Twain" }
 ]
 
 export default function Home() {
