@@ -1,6 +1,6 @@
 # Fun Quotes Website
 
-A modern web application that provides users with inspiring and entertaining quotes. Built with Next.js and styled with Tailwind CSS.
+A modern web application that provides users with inspiring and entertaining quotes. Built with Next.js and styled with Tailwind CSS..
 
 ## Features
 
